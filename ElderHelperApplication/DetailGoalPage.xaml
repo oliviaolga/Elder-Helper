@@ -1,0 +1,72 @@
+﻿<Page
+    x:Class="ElderHelperApplication.DetailGoalPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ElderHelperApplication"
+    xmlns:Charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  VerticalScrollMode="Auto"
+                  HorizontalScrollBarVisibility="Disabled"
+                  HorizontalScrollMode="Disabled"
+                  Background="White">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Name: " FontWeight="Bold"/>
+            <TextBlock Grid.Column="1" Text="{Binding nama}"/>
+
+            <TextBlock Text="Total:" Grid.Row="1" FontWeight="Bold"/>
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Text="{Binding calorieToday}"/>
+                <TextBlock Text="/"/>
+                <TextBlock Text="{Binding calorieGoal}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,40,0,0">
+                <TextBlock FontWeight="Bold" Text="Kalori yang sudah dikonsumsi:"/>
+                <ListView ItemsSource="{Binding Calculations}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding date}"/>
+                                <TextBlock Text="{Binding amount}"/>
+                                <Border Height="1" Background="LightGray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,10,0,0" BorderBrush="Black">
+                <Charting:Chart x:Name="lineChart" HorizontalAlignment="Left"  
+                                VerticalAlignment="Top" Margin="0" Width="500" Height="250">
+                    <Charting:LineSeries Margin="0" Title="Calorie Chart"
+                                         ItemsSource="{Binding TotalCalorie}" 
+                                         IndependentValueBinding="{Binding date}"
+                                         DependentValueBinding="{Binding calorieToday}" 
+                                         IsSelectionEnabled="True"/>
+                </Charting:Chart>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

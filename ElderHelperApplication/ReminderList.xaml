@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="ElderHelperApplication.ReminderList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ElderHelperApplication"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ListView
+        x:Name="ListViewReminder"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        IsItemClickEnabled="True"
+        ItemClick="ListViewReminder_ItemClick">
+        <ListView.Header>
+            <TextBlock
+                    Text="Daftar Pengingat"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Margin="20"/>
+        </ListView.Header>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Margin="10,5">
+                    <TextBlock
+                        Text="{Binding TimeOfDay}"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <TextBlock
+                        Text="{Binding Name}"
+                        Style="{ThemeResource BaseTextBlockStyle}"/>
+                    <TextBlock
+                        Text="{Binding Describe}"
+                        Style="{ThemeResource BaseTextBlockStyle}"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton
+                x:Name="ButtonAddReminder"
+                Icon="Add"
+                Label="Tambah Pengingat"
+                Click="ButtonAddReminder_Click"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton
+                    x:Name="ButtonViewScheduled"
+                    Label="Lihat Jadwal Pengingat"
+                    Click="ButtonViewScheduled_Click"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

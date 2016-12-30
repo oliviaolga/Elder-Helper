@@ -1,0 +1,72 @@
+﻿<Page
+    x:Class="ElderHelperApplication.CalorieTracker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ElderHelperApplication"
+    xmlns:CC="using:ElderHelperApplication.UserControls"
+    xmlns:Converter="using:ElderHelperApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Converter:BoolVisibilityConverter x:Key="BoolVisibility"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock FontSize="20" Text="Calorie Tracker" Margin="10,10,0,0" Grid.Row="0"/>
+
+        <ListView x:Name="GoalListView" Grid.Row="1" IsHoldingEnabled="True" ItemsSource="{Binding GoalList}" IsItemClickEnabled="True" ItemClick="GoalListView_ItemClick">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:Name="ListViewGrid" Background="Transparent">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Nama: " Grid.ColumnSpan="2" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding nama}" Grid.Column="3"/>
+
+                        <TextBlock Text="Total kalori yang harus dicapai: " Margin="0,10,0,0" Grid.Row="1" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="{Binding calorieGoal}" Grid.Row="1" Grid.Column="3"/>
+                        <TextBlock Text="{Binding calorieToday}" Grid.Row="1" Grid.Column="2"/>
+
+                        <ProgressBar Margin="0,10,0,10" Grid.Row="3" Grid.ColumnSpan="4" Maximum="{Binding calorieGoal}" Value="{Binding calorieToday}" IsIndeterminate="False" Height="20"/>
+
+                        <Button Grid.Row="5" Grid.Column="0" Content="Add" Command="{Binding DataContext.AddCalculateButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}"/>
+                        <Button Grid.Row="5" Grid.Column="1" Content="Edit" Command="{Binding DataContext.EditButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}" Margin="0,0,30,0"/>
+                        <Button Grid.Row="5" Grid.Column="2" Content="Delete Goal" Command="{Binding DataContext.DeleteButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Row="2" Margin="0,0,0,10">
+            <Button x:Name="AddButton" Command="{Binding GoalButtonCommand}" Content="Buat daftar" Click="AddButton_Click" HorizontalAlignment="Left"/>
+        </Grid>
+
+        <CC:AddGoal x:Name="AddGoalShow" Grid.RowSpan="2" Visibility="{Binding ShowGoalControl, Converter={StaticResource BoolVisibility}}" Action ="{Binding GoalAction, Mode=TwoWay}" GoalId="{Binding GoalId}"/>
+        <CC:AddCalculate x:Name="CalculateControl" Grid.RowSpan="3" GoalId="{Binding GoalId}" Visibility="{Binding ShowCalculateControl, Converter={StaticResource BoolVisibility}, Mode=TwoWay}"/>
+    </Grid>
+</Page>
