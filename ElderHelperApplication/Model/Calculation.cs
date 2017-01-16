@@ -18,12 +18,10 @@ namespace ElderHelperApplication.Model
         public DateTime date { get; set; }
         public double amount { get; set; }
 
-        public int GoalId { get; set; }
+        public int GoalId { get; set; }        
 
         [ForeignKey("GoalId")]
         public Goal Goal { get; set; }
-
-        public List<TotalCalorie> TotalCalories { get; set; }
 
         int ITableItem.GetId()
         {

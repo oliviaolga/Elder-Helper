@@ -34,17 +34,10 @@ namespace ElderHelperApplication.Model
         }
 
         [DataMember]
-        public DateTime SingleFireTime { get; set; }
+        public DateTime SingleFireTime { get; set; }       
+                
+        public bool oneMonth = false;
 
-        //[DataMember]
-        //public int OneMonth { get; set; }
-
-        //[DataMember]
-        //public DateTime MonthFireTime { get; set; }
-
-        //public bool IsOneMonth()
-        //{
-        //    return MonthFireTime != DateTime.MinValue;
-        //}
+        public bool everyday = false;
     }
 }

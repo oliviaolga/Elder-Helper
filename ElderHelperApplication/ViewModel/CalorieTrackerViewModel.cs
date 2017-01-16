@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace ElderHelperApplication.ViewModel
 {
@@ -112,8 +113,17 @@ namespace ElderHelperApplication.ViewModel
 
         private async void DeleteGoal(object parameter)
         {
-            var goal = parameter as Goal;
-            await DataContextHelper.DeleteItem<Goal>(goal);
+            MessageDialog dialog = new MessageDialog("Apakah anda yakin data ini dihapus?");
+            dialog.Commands.Add(new UICommand("Hapus") { Id = "delete" });
+            dialog.Commands.Add(new UICommand("Cancel"));
+
+            var result = await dialog.ShowAsync();
+            if (object.Equals(result.Id, "delete"))
+            {
+                var goal = parameter as Goal;
+                await DataContextHelper.DeleteItem<Goal>(goal);
+            }
+            
 
             FireOnDeleteFinished();
         }

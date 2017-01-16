@@ -39,31 +39,30 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Nama: " Grid.ColumnSpan="2" Margin="0,10,0,0"/>
-                        <TextBlock Text="{Binding nama}" Grid.Column="3"/>
+                        <TextBlock Text="Nama: " Grid.ColumnSpan="2" FontSize="18"/>
+                        <TextBlock Text="{Binding nama}" Grid.Column="3" FontSize="18"/>
 
-                        <TextBlock Text="Total kalori yang harus dicapai: " Margin="0,10,0,0" Grid.Row="1" Grid.ColumnSpan="2"/>
-                        <TextBlock Text="{Binding calorieGoal}" Grid.Row="1" Grid.Column="3"/>
-                        <TextBlock Text="{Binding calorieToday}" Grid.Row="1" Grid.Column="2"/>
+                        <TextBlock Text="Total kalori yang harus dicapai: " Grid.Row="1" Grid.ColumnSpan="2" Margin="0,20,0,0" FontSize="18"/>
+                        <TextBlock Text="{Binding calorieGoal}" Grid.Row="1" Grid.Column="3" Margin="0,20,0,0" FontSize="18"/>
 
-                        <ProgressBar Margin="0,10,0,10" Grid.Row="3" Grid.ColumnSpan="4" Maximum="{Binding calorieGoal}" Value="{Binding calorieToday}" IsIndeterminate="False" Height="20"/>
+                        <ProgressBar Grid.Row="3" Grid.ColumnSpan="4" Margin="0,20,0,0" Maximum="{Binding calorieGoal}" Value="{Binding calorieToday}" IsIndeterminate="False" Height="20"/>
 
-                        <Button Grid.Row="5" Grid.Column="0" Content="Add" Command="{Binding DataContext.AddCalculateButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}"/>
-                        <Button Grid.Row="5" Grid.Column="1" Content="Edit" Command="{Binding DataContext.EditButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}" Margin="0,0,30,0"/>
-                        <Button Grid.Row="5" Grid.Column="2" Content="Delete Goal" Command="{Binding DataContext.DeleteButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}"/>
+                        <Button Grid.Row="5" Grid.Column="0" Content="Add" Command="{Binding DataContext.AddCalculateButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}"  Margin="0,20,0,0"/>
+                        <Button Grid.Row="5" Grid.Column="1" Content="Edit" Command="{Binding DataContext.EditButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}" Margin="0,20,0,0"/>
+                        <Button Grid.Row="5" Grid.Column="2" Content="Delete Goal" Command="{Binding DataContext.DeleteButtonCommand, ElementName=GoalListView}" CommandParameter="{Binding}"  Margin="0,20,0,0"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
         <Grid Grid.Row="2" Margin="0,0,0,10">
-            <Button x:Name="AddButton" Command="{Binding GoalButtonCommand}" Content="Buat daftar" Click="AddButton_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="AddButton"  FontSize="18" Command="{Binding GoalButtonCommand}" Content="Buat daftar" Click="AddButton_Click" HorizontalAlignment="Left"/>
         </Grid>
 
         <CC:AddGoal x:Name="AddGoalShow" Grid.RowSpan="2" Visibility="{Binding ShowGoalControl, Converter={StaticResource BoolVisibility}}" Action ="{Binding GoalAction, Mode=TwoWay}" GoalId="{Binding GoalId}"/>

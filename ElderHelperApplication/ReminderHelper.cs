@@ -63,7 +63,7 @@ namespace ElderHelperApplication
             {
                 if (time.AddSeconds(5) > now)
                 {
-                    // If the reminder isn't scheduled already
+                    // If the alarm isn't scheduled already
                     if (!checkForExisting || !existing.Any(i => i.DeliveryTime == time))
                     {
                         var scheduledNotif = GenerateReminderNotification(reminder, time);
@@ -145,8 +145,8 @@ namespace ElderHelperApplication
             #endregion
 
             // We can easily enable Universal Dismiss by generating a RemoteId for the reminder that will be
-            // the same on both devices. We'll just use the reminder delivery time. If an reminder on one device
-            // has the same delivery time as an reminder on another device, it'll be dismissed when one of the
+            // the same on both devices. We'll just use the reminder delivery time. If a reminder on one device
+            // has the same delivery time as a reminder on another device, it'll be dismissed when one of the
             // reminders is dismissed.
             string remoteId = (reminderTime.Ticks / 10000000 / 60).ToString(); // Minutes
 
@@ -165,21 +165,36 @@ namespace ElderHelperApplication
             {
                 return new DateTime[] { reminder.SingleFireTime };
             }
-            //else if (reminder.IsOneMonth())
-            //{
-            //    int thisyear = DateTime.Now.Year;
-            //    int thismonth = DateTime.Now.Month;
-            //    int OneMonthDays = DateTime.DaysInMonth(thisyear, thismonth);
-            //    DateTime today = DateTime.Today;
-            //    List<DateTime> answer = new List<DateTime>();
-            //    for (int i = 0; i < OneMonthDays; i++)
-            //    {
-            //        answer.Add(today.Add(reminder.TimeOfDay));
-            //        today = today.AddDays(1);
-            //    }
+            else if (reminder.oneMonth == true)
+            {
+                DateTime today = DateTime.Today;
+                int oneMonth = DateTime.DaysInMonth(today.Year,today.Month);
+                List<DateTime> answer = new List<DateTime>();
+                for (int i = 0; i < oneMonth; i++)
+                {
+                    if (reminder.TimeOfDay < today.TimeOfDay)
+                        today = today.AddDays(1);
 
-            //    return answer.ToArray();
-            //}
+                    answer.Add(today.Add(reminder.TimeOfDay));
+                    
+                    today = today.AddDays(1);
+                }
+                
+                return answer.ToArray();
+            }
+            else if (reminder.everyday == true)
+            {
+                DateTime today = DateTime.Today;
+                List<DateTime> answer = new List<DateTime>();
+
+                if (reminder.TimeOfDay < today.TimeOfDay)
+                    today = today.AddDays(1);
+
+                answer.Add(today.Add(reminder.TimeOfDay));
+                today = today.AddDays(1);               
+
+                return answer.ToArray();
+            }
             else
             {
                 DateTime today = DateTime.Today;

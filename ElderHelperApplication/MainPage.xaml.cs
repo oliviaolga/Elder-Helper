@@ -36,5 +36,10 @@ namespace ElderHelperApplication
         {
             this.Frame.Navigate(typeof(CalorieTracker));
         }
+
+        private void Button3_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(DaftarNutrisi));
+        }
     }
 }

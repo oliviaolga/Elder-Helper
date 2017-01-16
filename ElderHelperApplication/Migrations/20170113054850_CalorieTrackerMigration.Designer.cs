@@ -8,9 +8,10 @@ using ElderHelperApplication.DataContext;
 namespace ElderHelperApplication.Migrations
 {
     [DbContext(typeof(GoalDataContext))]
-    partial class GoalDataContextModelSnapshot : ModelSnapshot
+    [Migration("20170113054850_CalorieTrackerMigration")]
+    partial class CalorieTrackerMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");

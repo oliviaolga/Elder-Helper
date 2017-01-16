@@ -16,17 +16,17 @@ namespace ElderHelperApplication.Model
         public int GuId { get; set; }
 
         public DateTime date { get; set; }
-        public double calorieToday { get; set; }
-
+        public double calorieToday { get; set; }             
+                
         public int GoalId { get; set; }
+
+        [ForeignKey("GoalId")]
+        public Goal Goal { get; set; }
 
         public int Id { get; set; }
 
         [ForeignKey("Id")]
         public Calculation Calculation { get; set; }
-
-        [ForeignKey("GoalId")]
-        public Goal Goal { get; set; }
 
         int ITableItem.GetId()
         {

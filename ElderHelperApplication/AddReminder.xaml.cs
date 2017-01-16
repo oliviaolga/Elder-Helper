@@ -1,24 +1,15 @@
 ﻿using ElderHelperApplication.Model;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.ApplicationModel.Contacts;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Media.SpeechSynthesis;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -47,26 +38,33 @@ namespace ElderHelperApplication
             picker.FileTypeFilter.Add(".wma");
             picker.FileTypeFilter.Add(".wav");
 
-            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
-            filepicker = file.Path;
+            StorageFile file = await picker.PickSingleFileAsync();                             
 
-            if (filepicker == null)
+            if (file == null)
             {
-                var messageDialog = new Windows.UI.Popups.MessageDialog("File lagu sudah dipilih.");
+                var messageDialog = new Windows.UI.Popups.MessageDialog("File audio belum dipilih. Silahkan pilih file audio.");
                 await messageDialog.ShowAsync();
+                await picker.PickSingleFileAsync();
             }
+            else
+            {
+                filepicker = file.Path;
+                var messageDialog = new Windows.UI.Popups.MessageDialog("File audio sudah dipilih.");
+                await messageDialog.ShowAsync();                
+            }                     
         }
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            if ((TextBoxName.Text != null) && (DescriptionName.Text != null) && (filepicker != null))
+            if ((TextBoxName.Text != null) && (DescriptionName.Text != null))
             {
                 string name = TextBoxName.Text;
                 TimeSpan time = TimePickerTime.Time;
                 bool onlyOnce = ComboBoxRepeats.SelectedIndex == 0;
                 bool onlyOneMonth = ComboBoxRepeats.SelectedIndex == 2;
+                bool daily = ComboBoxRepeats.SelectedIndex == 3;
                 string describe = DescriptionName.Text;
-
+                
                 var reminder = new MyReminder()
                 {
                     Name = name,
@@ -88,12 +86,21 @@ namespace ElderHelperApplication
                         reminder.SingleFireTime = DateTime.Today.Add(time);
                     }
                 }
-                //else if (onlyOneMonth)
-                //{
-                //    reminder.MonthFireTime = DateTime.Today.Add(time);
-                //}
+                else if (daily)
+                {
+                    reminder.everyday = true;
+                    reminder.oneMonth = false;
+                }
+                else if (onlyOneMonth)
+                {
+                    reminder.oneMonth = true;
+                    reminder.everyday = false;
+                }
                 else
                 {
+                    reminder.everyday = false;
+                    reminder.oneMonth = false;
+
                     reminder.DaysOfWeek = new DayOfWeek[]
                     {
                     DayOfWeek.Sunday,
@@ -203,38 +210,42 @@ namespace ElderHelperApplication
 
             if (!String.IsNullOrEmpty(text))
             {
-                //try
-                //{                                      
-
-                var synthesizer = new SpeechSynthesizer();
-                synthesizer.Voice = voices.First(gender => gender.Gender == VoiceGender.Female);
-                SpeechSynthesisStream stream = await synthesizer.SynthesizeTextToStreamAsync(text);
-
-                media.AutoPlay = true;
-                media.SetSource(stream, stream.ContentType);
-                media.Play();
-
-                var savePicker = new FileSavePicker();
-                savePicker.SuggestedStartLocation = PickerLocationId.Desktop;
-                savePicker.FileTypeChoices.Add("Sound", new List<string>() { ".mp3" });
-                savePicker.SuggestedFileName = "speech";
-
-                var file = await savePicker.PickSaveFileAsync();
-
-                using (var reader = new DataReader(stream))
+                try
                 {
-                    await reader.LoadAsync((uint)stream.Size);
-                    IBuffer buffer = reader.ReadBuffer((uint)stream.Size);
-                    await FileIO.WriteBufferAsync(file, buffer);
-                }
-                //}
 
-                //catch (Exception)
-                //{
-                //    // If the text is unable to be synthesized, throw an error message to the user.            
-                //    var messageDialog = new Windows.UI.Popups.MessageDialog("Komputer tidak dapat menyimpan data atau membaca teks.");
-                //    await messageDialog.ShowAsync();
-                //}                    
+                    var synthesizer = new SpeechSynthesizer();
+                    synthesizer.Voice = voices.First(gender => gender.Gender == VoiceGender.Female);
+                    SpeechSynthesisStream stream = await synthesizer.SynthesizeTextToStreamAsync(text);
+
+                    media.AutoPlay = true;
+                    media.SetSource(stream, stream.ContentType);
+                    media.Play();
+
+                    var savePicker = new FileSavePicker();
+                    savePicker.SuggestedStartLocation = PickerLocationId.Desktop;
+                    savePicker.FileTypeChoices.Add("Sound", new List<string>() { ".mp3" });
+                    savePicker.SuggestedFileName = "speech";
+
+                    var file = await savePicker.PickSaveFileAsync();
+
+                    stream.Seek(0);
+                    using (var reader = new DataReader(stream))
+                    {
+                        await reader.LoadAsync((uint)stream.Size);
+                        IBuffer buffer = reader.ReadBuffer((uint)stream.Size);
+                        await FileIO.WriteBufferAsync(file, buffer);
+                    }
+
+                    var messageDialog = new Windows.UI.Popups.MessageDialog("Komputer selesai merekam dan menyimpan data audio.");
+                    await messageDialog.ShowAsync();
+                }
+
+                catch (Exception)
+                {
+                    // If the text is unable to be synthesized, throw an error message to the user.            
+                    var messageDialog = new Windows.UI.Popups.MessageDialog("Komputer tidak dapat menyimpan data atau membaca teks.");
+                    await messageDialog.ShowAsync();
+                }
             }
         }
         #endregion

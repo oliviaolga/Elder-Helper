@@ -18,5 +18,11 @@ namespace ElderHelperApplication.DataContext
         {
             optionsBuilder.UseSqlite($"Filename=CalorieTracker.db");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TotalCalorie>()
+                .HasKey(c => c.GuId);
+        }
     }
 }

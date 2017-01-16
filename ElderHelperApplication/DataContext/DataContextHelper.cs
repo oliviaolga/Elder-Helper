@@ -66,15 +66,15 @@ namespace ElderHelperApplication.DataContext
                 using (var db = new GoalDataContext())
                 {
                     var goals = await db.Goals.ToListAsync();
-                    var goal = goals.SingleOrDefault(x => x.GoalId == savedCalculation.GoalId);
+                    var goal = goals.SingleOrDefault(x => x.GoalId == savedCalculation.GoalId);                                       
 
-                    goal.calorieToday += savedCalculation.amount;                   
-                    
+                    goal.calorieToday += savedCalculation.amount;                    
+
                     await db.SaveChangesAsync();
                 }
             });
         }
-
+                
         public static void DeleteAllGoals()
         {
             using (var db = new GoalDataContext())
@@ -109,19 +109,20 @@ namespace ElderHelperApplication.DataContext
         public static void ResetItem()
         {
             using (var db = new GoalDataContext())
-            {
+            {                
                 foreach (var item in db.Goals)
                 {
-                    TotalCalorie data = new TotalCalorie();
-                    data.calorieToday = item.calorieToday;
+                    //var data = new TotalCalorie();
+                    //data.calorieToday = item.calorieToday;
+                    //data.date = DateTime.Now;
+                    //db.Add(data);
+                    item.dataToday = 0;
+                    item.dataToday = item.calorieToday;
                     item.calorieToday = 0;
                 }                    
 
-                foreach (var item2 in db.Calculations)
-                {
-                    item2.amount = 0;
-                    db.Calculations.Remove(item2);
-                }
+                foreach (var item2 in db.Calculations)                
+                    db.Calculations.Remove(item2);                
 
                 db.SaveChanges();
             }

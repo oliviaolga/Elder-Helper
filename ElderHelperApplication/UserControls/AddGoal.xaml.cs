@@ -104,6 +104,7 @@ namespace ElderHelperApplication.UserControls
                     newList.tinggi = Convert.ToDouble(Tinggi.Text);
                     newList.umur = Convert.ToInt32(Usia.Text);
                     newList.calorieToday = 0;
+                    newList.dataToday = 0;
                     newList.gender = ((ComboBoxItem)Gender.SelectedItem).Content.ToString();
 
                     if (newList.gender == "Laki-laki")

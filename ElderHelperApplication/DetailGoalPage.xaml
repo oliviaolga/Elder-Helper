@@ -26,14 +26,16 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Name: " FontWeight="Bold"/>
-            <TextBlock Grid.Column="1" Text="{Binding nama}"/>
+            <TextBlock Text="Name: " FontWeight="Bold" FontSize="18"/>
+            <TextBlock Grid.Column="1" Text="{Binding nama}" FontSize="18"/>
 
-            <TextBlock Text="Total:" Grid.Row="1" FontWeight="Bold"/>
+            <TextBlock Text="Total:" Grid.Row="1" FontWeight="Bold" FontSize="18"/>
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                <TextBlock Text="{Binding calorieToday}"/>
-                <TextBlock Text="/"/>
-                <TextBlock Text="{Binding calorieGoal}"/>
+                <TextBlock Text="{Binding calorieToday}" FontSize="18"/>
+                <TextBlock Text="/" FontSize="18"/>
+                <TextBlock Text="{Binding calorieGoal}" FontSize="18"/>
+                <TextBlock Text="/" FontSize="18"/>
+                <TextBlock Text="{Binding dataToday}" FontSize="18"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,40,0,0">
@@ -48,8 +50,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding date}"/>
-                                <TextBlock Text="{Binding amount}"/>
+                                <TextBlock Text="{Binding date}" FontSize="18"/>
+                                <TextBlock Text="{Binding amount}" FontSize="18"/>
                                 <Border Height="1" Background="LightGray"/>
                             </StackPanel>
                         </DataTemplate>
@@ -57,16 +59,16 @@
                 </ListView>
             </StackPanel>
 
-            <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,10,0,0" BorderBrush="Black">
+            <!--<StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10,0,0" BorderBrush="Black">
                 <Charting:Chart x:Name="lineChart" HorizontalAlignment="Left"  
                                 VerticalAlignment="Top" Margin="0" Width="500" Height="250">
                     <Charting:LineSeries Margin="0" Title="Calorie Chart"
-                                         ItemsSource="{Binding TotalCalorie}" 
+                                         ItemsSource="{Binding TotalCalories}" 
                                          IndependentValueBinding="{Binding date}"
                                          DependentValueBinding="{Binding calorieToday}" 
                                          IsSelectionEnabled="True"/>
                 </Charting:Chart>
-            </StackPanel>
+            </StackPanel>-->
         </Grid>
     </ScrollViewer>
 </Page>

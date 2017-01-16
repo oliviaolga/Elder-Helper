@@ -39,8 +39,8 @@ namespace ElderHelperApplication
         {
             MyReminder reminder = e.ClickedItem as MyReminder;
 
-            MessageDialog dialog = new MessageDialog("Do you want to delete this reminder?");
-            dialog.Commands.Add(new UICommand("Delete") { Id = "delete" });
+            MessageDialog dialog = new MessageDialog("Apakah anda yakin pengingat ini dihapus?");
+            dialog.Commands.Add(new UICommand("hapus") { Id = "delete" });
             dialog.Commands.Add(new UICommand("Cancel"));
 
             var result = await dialog.ShowAsync();

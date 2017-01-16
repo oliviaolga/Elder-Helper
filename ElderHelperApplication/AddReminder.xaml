@@ -26,6 +26,7 @@
                         <x:String>Sekali</x:String>
                         <x:String>1 Minggu</x:String>
                         <x:String>1 Bulan</x:String>
+                        <x:String>Setiap hari</x:String>
                     </ComboBox.Items>
                 </ComboBox>
                 <TextBox

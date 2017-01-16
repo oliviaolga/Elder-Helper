@@ -23,10 +23,11 @@ namespace ElderHelperApplication.Model
         public int umur { get; set; }
         public string gender { get; set; }
         public double calorieGoal { get; set; }
-        public double calorieToday { get; set; }        
+        public double calorieToday { get; set; }   
+        public double dataToday { get; set; }             
 
         public List<Calculation> Calculations { get; set; }
-        public List<TotalCalorie> TotalCalories { get; set; }
+        public List<TotalCalorie> TotalCalories { get; set; }     
 
         int ITableItem.GetId()
         {

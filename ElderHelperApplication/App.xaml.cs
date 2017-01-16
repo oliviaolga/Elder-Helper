@@ -40,9 +40,9 @@ namespace ElderHelperApplication
             //Entity Frameworks
             using (var db = new GoalDataContext())
             {
-            //    db.Database.ExecuteSqlCommand("DROP TABLE [Goals]");
-            //    db.Database.ExecuteSqlCommand("DROP TABLE [Calculations]");
-            //    db.Database.ExecuteSqlCommand("DROP TABLE [TotalCalories]");
+                //db.Database.ExecuteSqlCommand("DROP TABLE [Goals]");
+                //db.Database.ExecuteSqlCommand("DROP TABLE [Calculations]");
+                //db.Database.ExecuteSqlCommand("DROP TABLE [TotalCalories]");
                 db.Database.Migrate();                
             }
         }
@@ -67,7 +67,7 @@ namespace ElderHelperApplication
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = false;
+                this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
