@@ -35,7 +35,7 @@
             </Button.Template>
         </Button>
 
-        <Button Grid.Row="3" HorizontalAlignment="Center">
+        <Button Grid.Row="3" Click="Button3_Click"  HorizontalAlignment="Center">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Image  Source="Assets/Nutrition.jpg" Stretch="Uniform" Height="auto" Width="auto"/>
